@@ -1,6 +1,7 @@
+import 'package:expense_tracker/common_widgets/expenses_list/expenses_list.dart';
 import 'package:flutter/material.dart';
 
-import 'models/expense.dart';
+import '../models/expense.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -26,9 +27,16 @@ class _ExpensesState extends State<Expenses> {
     // TODO: implement build
    return Scaffold(body: Column(
      children: [
-       Text('The chart'),
+       Text('The Chart'),
+       Expanded (child: ExpensesList(expenses: _registeredExpenses,))
 
      ],
    ));
   }
 }
+
+/*
+Notes
+
+Column() inside of Column() usually needs the Expanded() widget. Flutter won't know how to size it correctly otherwise.
+ */
