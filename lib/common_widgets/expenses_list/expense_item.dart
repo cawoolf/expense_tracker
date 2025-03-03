@@ -22,9 +22,9 @@ class ExpenseItem extends StatelessWidget {
                   const Spacer(),
                   Row(
                     children: [
-                      Icon(Icons.calendar_month),
+                      Icon(categoryIcons[expense.category]),
                       const SizedBox(width: 8.0),
-                      Text(expense.date.toString())
+                      Text(expense.formattedDate)
                     ],
                   )
                 ],
@@ -39,7 +39,7 @@ class ExpenseItem extends StatelessWidget {
 Notes
 Card() widget is good for styling
 .toStringAsFixed() ensure that a double is only displayed up to the int digit
-Spacer() widget takes up all space available to it. Used to Left and Right justify widgets in a Row()
+Spacer() widget takes up all space available to it. Used to Left and Right justify common_widgets in a Row()
 
 
 */

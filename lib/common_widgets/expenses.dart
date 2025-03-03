@@ -1,3 +1,4 @@
+import 'package:expense_tracker/common_widgets/NewExpense.dart';
 import 'package:expense_tracker/common_widgets/expenses_list/expenses_list.dart';
 import 'package:flutter/material.dart';
 
@@ -13,25 +14,56 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-
+  //Dummy Data
   final List<Expense> _registeredExpenses = [
-    Expense(title: 'Flutter Course', amount: 19.99, date: DateTime.now(), category: Category.work),
-    Expense(title: 'Cinema', amount: 15.69, date: DateTime.now(), category: Category.leisure),
-    Expense(title: 'Gym Membership', amount: 95.99, date: DateTime(2025,3,1), category: Category.leisure),
-    Expense(title: 'Sushi', amount: 19.99, date: DateTime(2025,2,28), category: Category.work),
-
+    Expense(
+        title: 'Flutter Course',
+        amount: 19.99,
+        date: DateTime.now(),
+        category: Category.work),
+    Expense(
+        title: 'Cinema',
+        amount: 15.69,
+        date: DateTime.now(),
+        category: Category.leisure),
+    Expense(
+        title: 'Gym Membership',
+        amount: 95.99,
+        date: DateTime(2025, 3, 1),
+        category: Category.leisure),
+    Expense(
+        title: 'Sushi',
+        amount: 19.99,
+        date: DateTime(2025, 2, 28),
+        category: Category.work),
   ];
+
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+        context: context,
+        builder: (ctx) => const NewExpense()); //ctx is the context related to the builder widget
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-   return Scaffold(body: Column(
-     children: [
-       Text('The Chart'),
-       Expanded (child: ExpensesList(expenses: _registeredExpenses,))
-
-     ],
-   ));
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter Expense Tracker'),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.add), onPressed: _openAddExpenseOverlay)
+          ],
+        ),
+        body: Column(
+          children: [
+            Text('The Chart'),
+            Expanded(
+                child: ExpensesList(
+              expenses: _registeredExpenses,
+            ))
+          ],
+        ));
   }
 }
 
@@ -39,4 +71,7 @@ class _ExpensesState extends State<Expenses> {
 Notes
 
 Column() inside of Column() usually needs the Expanded() widget. Flutter won't know how to size it correctly otherwise.
+context is provided automatically in a Widget that extends State
+Every widget has a context object
+context contains Widget meta data, and information about it's location in the Widget tree
  */
