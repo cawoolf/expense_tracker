@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:expense_tracker/models/expense.dart' as Expense;
 
 final formatter = DateFormat.yMd();
 
@@ -17,6 +19,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+  Expense.Category _selectedCategory = Expense.Category.leisure;
 
   void _presentDatePicker() async {
     final now = DateTime.now();
@@ -33,8 +36,6 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       _selectedDate = pickedDate;
     });
-
-
   }
 
   @override
@@ -72,7 +73,9 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(_selectedDate == null ? 'No date selected' : formatter.format(_selectedDate!)),
+                    Text(_selectedDate == null
+                        ? 'No date selected'
+                        : formatter.format(_selectedDate!)),
                     IconButton(
                         onPressed: _presentDatePicker,
                         icon: const Icon(Icons.calendar_month))
@@ -83,6 +86,22 @@ class _NewExpenseState extends State<NewExpense> {
             SizedBox(height: 32.0),
             Row(
               children: [
+                DropdownButton(
+                  value: _selectedCategory,
+                    items: Expense.Category.values
+                        .map((category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(category.name.toUpperCase())))
+                        .toList(),
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    }),
+                SizedBox(width: 24.0),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context); // Pops the model off the stack
