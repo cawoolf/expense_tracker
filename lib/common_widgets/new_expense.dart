@@ -8,7 +8,9 @@ final formatter = DateFormat.yMd();
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.onAddExpense});
 
-  final void Function(expense.Expense expense) onAddExpense;
+  final void Function(expense.Expense expense)
+      onAddExpense; // Dependency injection with setState. Uses a callback to Expenses()
+
 
   @override
   State<StatefulWidget> createState() {
@@ -48,16 +50,22 @@ class _NewExpenseState extends State<NewExpense> {
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
-      _alertDialog();  // show error msg
+      _alertDialog(); // show error msg
       return; // Returns to prevent the rest of the _submitExpenseData from executing due to an error
     }
 
-    // ...
-    widget.onAddExpense(expense.Expense(title: _titleController.text, amount: enteredAmount, date: _selectedDate!, category: _selectedCategory));
+    // Call back to Expense() to add an Expense to the list
+    widget.onAddExpense(expense.Expense(
+        title: _titleController.text,
+        amount: enteredAmount,
+        date: _selectedDate!,
+        category: _selectedCategory));
+
+    Navigator.pop(context); // Closes the model after adding an expense
   }
 
   void _alertDialog() {
-     showDialog(
+    showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
               title: const Text('Invalid Input'),
@@ -83,7 +91,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.fromLTRB(16,48,16,16),
         child: Column(
           children: [
             _titleField(),

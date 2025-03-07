@@ -40,6 +40,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      isScrollControlled: true, // Causes the overlay to take up the full screen
         context: context,
         builder: (ctx) => NewExpense(onAddExpense: _addExpense)); //ctx is the context related to the builder widget
   }
@@ -47,6 +48,12 @@ class _ExpensesState extends State<Expenses> {
   void _addExpense(Expense expense) {
     setState(() {
     _registeredExpenses.add(expense);
+    });
+  }
+
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.remove(expense);
     });
   }
 
@@ -66,7 +73,7 @@ class _ExpensesState extends State<Expenses> {
             Text('The Chart'),
             Expanded(
                 child: ExpensesList(
-              expenses: _registeredExpenses,
+              expenses: _registeredExpenses, onRemoveExpense: _removeExpense,
             ))
           ],
         ));
