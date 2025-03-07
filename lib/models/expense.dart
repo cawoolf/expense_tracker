@@ -28,4 +28,8 @@ class Expense {
   String get formattedDate {
     return formatter.format(date);
   }
+
+  Type get categories {
+    return Category;
+  }
 }

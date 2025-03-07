@@ -41,7 +41,13 @@ class _ExpensesState extends State<Expenses> {
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
         context: context,
-        builder: (ctx) => const NewExpense()); //ctx is the context related to the builder widget
+        builder: (ctx) => NewExpense(onAddExpense: _addExpense)); //ctx is the context related to the builder widget
+  }
+
+  void _addExpense(Expense expense) {
+    setState(() {
+    _registeredExpenses.add(expense);
+    });
   }
 
   @override
