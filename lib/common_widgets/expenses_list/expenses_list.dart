@@ -1,5 +1,5 @@
 import 'package:expense_tracker/common_widgets/expenses_list/expense_item.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../models/expense.dart';
 
@@ -11,12 +11,31 @@ class ExpensesList extends StatelessWidget {
 
   final List<Expense> expenses;
 
+  Container _dismissGradient(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.red,
+            Colors.white,
+          ],
+          begin: Alignment.centerRight,
+          end: Alignment.centerLeft,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      margin: EdgeInsets.symmetric(
+          horizontal: Theme.of(context).cardTheme.margin!.horizontal),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: expenses.length,
         itemBuilder: (context, index) => Dismissible(
             key: ValueKey(expenses[index]),
+            background: _dismissGradient(context),   // Creates background effect on swipe
             onDismissed: (direction) {
               onRemoveExpense(expenses[index]);
             },
