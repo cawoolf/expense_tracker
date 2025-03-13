@@ -1,6 +1,6 @@
-import 'package:expense_tracker/common_widgets/chart/chart.dart';
-import 'package:expense_tracker/common_widgets/new_expense.dart';
-import 'package:expense_tracker/common_widgets/expenses_list/expenses_list.dart';
+import 'package:expense_tracker/widgets/chart/chart.dart';
+import 'package:expense_tracker/widgets/new_expense.dart';
+import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:flutter/material.dart';
 
 import 'models/expense.dart';
@@ -55,11 +55,9 @@ class _ExpensesState extends State<Expenses> {
     setState(() {
       _registeredExpenses.add(expense);
     });
-
   }
 
   void _removeExpense(Expense expense) {
-
     final expenseIndex = _registeredExpenses.indexOf(expense);
 
     setState(() {
@@ -68,7 +66,6 @@ class _ExpensesState extends State<Expenses> {
 
     // ScaffoldMessenger shows overlays at the root Scaffold()
     _triggerSnackBar(expenseIndex, expense);
-
   }
 
   void _triggerSnackBar(int expenseIndex, Expense expense) {
@@ -83,12 +80,17 @@ class _ExpensesState extends State<Expenses> {
             setState(() {
               _registeredExpenses.insert(expenseIndex, expense);
             });
-          }),));
+          }),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    print(MediaQuery.of(context).size.width);
+    print(MediaQuery.of(context).size.height);
+
+    double width = MediaQuery.of(context).size.width; // Used for creating Response layouts
+
     Widget mainContent = Center(
       child: Text('No expenses found. Start adding some!'), // Default Content
     );
@@ -108,9 +110,19 @@ class _ExpensesState extends State<Expenses> {
                 icon: const Icon(Icons.add), onPressed: _openAddExpenseOverlay)
           ],
         ),
-        body: Column(
-          children: [Chart(expenses: _registeredExpenses), Expanded(child: mainContent)],
-        ));
+        body: width < 600
+            ? Column(
+                children: [
+                  Chart(expenses: _registeredExpenses),
+                  Expanded(child: mainContent)
+                ],
+              )
+            : Row(
+                children: [
+                  Expanded(child: Chart(expenses: _registeredExpenses)), // Expanded constrains the child to only take as much width as available in the Row, after sizing the other Row children
+                  Expanded(child: mainContent)
+                ],
+              ));
   }
 }
 

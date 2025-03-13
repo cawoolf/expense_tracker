@@ -40,7 +40,7 @@ class ExpenseItem extends StatelessWidget {
 Notes
 Card() widget is good for styling
 .toStringAsFixed() ensure that a double is only displayed up to the int digit
-Spacer() widget takes up all space available to it. Used to Left and Right justify common_widgets in a Row()
+Spacer() widget takes up all space available to it. Used to Left and Right justify widgets in a Row()
 
 
 */
