@@ -109,6 +109,30 @@ class _NewExpenseState extends State<NewExpense> {
     );
   }
 
+  /*
+    return LayoutBuilder(builder: (ctx, constraints) {
+      final width = constraints.maxWidth;
+      return SizedBox(
+        height: double.infinity,
+        child: SingleChildScrollView(
+          child: Padding(
+              padding: EdgeInsets.fromLTRB(16, 48, 16, keyboardSpace + 16),
+              child: Column(
+                children: [
+                  // if(width > 600)
+                  //   _titleField()
+                  // else
+                  _titleField(),
+                  _amountRow(),
+                  SizedBox(height: 32.0),
+                  _bottomRow(context)
+                ],
+              )),
+        ),
+      );
+    });
+   */
+
   TextField _titleField() {
     return TextField(
       controller: _titleController,
