@@ -37,12 +37,33 @@ class _ExpensesState extends State<Expenses> {
         amount: 19.99,
         date: DateTime(2025, 2, 28),
         category: Category.work),
+    Expense(
+        title: 'Flutter Course',
+        amount: 19.99,
+        date: DateTime.now(),
+        category: Category.work),
+    Expense(
+        title: 'Cinema',
+        amount: 15.69,
+        date: DateTime.now(),
+        category: Category.leisure),
+    Expense(
+        title: 'Gym Membership',
+        amount: 95.99,
+        date: DateTime(2025, 3, 1),
+        category: Category.leisure),
+    Expense(
+        title: 'Sushi',
+        amount: 19.99,
+        date: DateTime(2025, 2, 28),
+        category: Category.work)
   ];
 
   // final List<Expense> _registeredExpenses = [];
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+        useSafeArea: true, // Ensure widgets stay away from device features
         isScrollControlled: true,
         // Causes the overlay to take up the full screen
         context: context,
@@ -89,7 +110,8 @@ class _ExpensesState extends State<Expenses> {
     print(MediaQuery.of(context).size.width);
     print(MediaQuery.of(context).size.height);
 
-    double width = MediaQuery.of(context).size.width; // Used for creating Response layouts
+    double width =
+        MediaQuery.of(context).size.width; // Used for creating Response layouts
 
     Widget mainContent = Center(
       child: Text('No expenses found. Start adding some!'), // Default Content
@@ -119,7 +141,8 @@ class _ExpensesState extends State<Expenses> {
               )
             : Row(
                 children: [
-                  Expanded(child: Chart(expenses: _registeredExpenses)), // Expanded constrains the child to only take as much width as available in the Row, after sizing the other Row children
+                  Expanded(child: Chart(expenses: _registeredExpenses)),
+                  // Expanded constrains the child to only take as much width as available in the Row, after sizing the other Row children
                   Expanded(child: mainContent)
                 ],
               ));
@@ -133,4 +156,8 @@ Column() inside of Column() usually needs the Expanded() widget. Flutter won't k
 context is provided automatically in a Widget that extends State
 Every widget has a context object
 context contains Widget meta data, and information about it's location in the Widget tree
+
+Scaffold constrains widgets to max device height and width. Good for the root parent widget.
+Scaffold is also automatically inside a SafeArea. Stays away from device features.
+
  */

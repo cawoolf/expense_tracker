@@ -90,16 +90,23 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.fromLTRB(16,48,16,16),
-        child: Column(
-          children: [
-            _titleField(),
-            _amountRow(),
-            SizedBox(height: 32.0),
-            _bottomRow(context)
-          ],
-        ));
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+            padding: EdgeInsets.fromLTRB(16,48,16,keyboardSpace + 16),
+            child: Column(
+              children: [
+                _titleField(),
+                _amountRow(),
+                SizedBox(height: 32.0),
+                _bottomRow(context)
+              ],
+            )),
+      ),
+    );
   }
 
   TextField _titleField() {
