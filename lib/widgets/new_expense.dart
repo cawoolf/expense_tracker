@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/models/expense.dart' as expense;
@@ -10,7 +9,6 @@ class NewExpense extends StatefulWidget {
 
   final void Function(expense.Expense expense)
       onAddExpense; // Dependency injection with setState. Uses a callback to Expenses()
-
 
   @override
   State<StatefulWidget> createState() {
@@ -88,29 +86,36 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+  //
+  //   return SizedBox(
+  //     height: double.infinity,
+  //     child: SingleChildScrollView(
+  //       child: Padding(
+  //           padding: EdgeInsets.fromLTRB(16,48,16,keyboardSpace + 16),
+  //           child: Column(
+  //             children: [
+  //               _titleField(),
+  //            _amountRow(),
+  //               SizedBox(height: 32.0),
+  //               _bottomRow(context)
+  //             ],
+  //           )),
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
-
-    return SizedBox(
-      height: double.infinity,
-      child: SingleChildScrollView(
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(16,48,16,keyboardSpace + 16),
-            child: Column(
-              children: [
-                _titleField(),
-                _amountRow(),
-                SizedBox(height: 32.0),
-                _bottomRow(context)
-              ],
-            )),
-      ),
-    );
-  }
-
-  /*
     return LayoutBuilder(builder: (ctx, constraints) {
+      print(constraints.minWidth);
+      print(constraints.maxWidth);
+      print(constraints.minHeight);
+      print(constraints.maxWidth);
+
       final width = constraints.maxWidth;
       return SizedBox(
         height: double.infinity,
@@ -119,19 +124,25 @@ class _NewExpenseState extends State<NewExpense> {
               padding: EdgeInsets.fromLTRB(16, 48, 16, keyboardSpace + 16),
               child: Column(
                 children: [
-                  // if(width > 600)
-                  //   _titleField()
-                  // else
-                  _titleField(),
-                  _amountRow(),
-                  SizedBox(height: 32.0),
+                  if (width >= 600)
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      Expanded(child: _titleField()),
+                      SizedBox(width: 24),
+                      Expanded(child: _amountTextField())
+                    ])
+                  else
+                    _titleField(),
+                    // _amountRow(),
+                    // SizedBox(height: 32.0),
                   _bottomRow(context)
                 ],
               )),
         ),
       );
     });
-   */
+  }
 
   TextField _titleField() {
     return TextField(
@@ -177,33 +188,29 @@ class _NewExpenseState extends State<NewExpense> {
     );
   }
 
-  Row _amountRow() {
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
+  TextField _amountTextField() {
+    return TextField(
             controller: _amountController,
             keyboardType: TextInputType.number,
             decoration:
                 InputDecoration(prefixText: '\$ ', label: Text('Amount')),
-          ),
-        ),
-        SizedBox(width: 16),
-        Expanded(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(_selectedDate == null
-                ? 'No date selected'
-                : formatter.format(_selectedDate!)),
-            IconButton(
-                onPressed: _presentDatePicker,
-                icon: const Icon(Icons.calendar_month))
-          ],
-        ))
-      ],
-    );
+          );
+  }
+
+  Expanded _datePicker() {
+    return Expanded(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(_selectedDate == null
+              ? 'No date selected'
+              : formatter.format(_selectedDate!)),
+          IconButton(
+              onPressed: _presentDatePicker,
+              icon: const Icon(Icons.calendar_month))
+        ],
+      ));
   }
 }
 
