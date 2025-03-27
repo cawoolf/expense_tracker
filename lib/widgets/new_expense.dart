@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:expense_tracker/models/expense.dart' as expense;
+import 'dart:io';
 
 final formatter = DateFormat.yMd();
 
@@ -48,7 +50,7 @@ class _NewExpenseState extends State<NewExpense> {
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
-      _alertDialog(); // show error msg
+      _showDialog(); // show error msg
       return; // Returns to prevent the rest of the _submitExpenseData from executing due to an error
     }
 
@@ -62,7 +64,33 @@ class _NewExpenseState extends State<NewExpense> {
     Navigator.pop(context); // Closes the model after adding an expense
   }
 
-  void _alertDialog() {
+  // Displays alert dialog style based on iOS or Android
+  void _showDialog() {
+    if(Platform.isIOS) {
+      _showCupertinoDialogIOS();
+    } else {
+      _showMaterialAlertDialog();
+    }
+  }
+
+  void _showCupertinoDialogIOS() {
+    showCupertinoDialog(
+        context: context,
+        builder: (ctx) => CupertinoAlertDialog(
+          title: const Text('Invalid Input'),
+          content: const Text(
+              'Please make sure a valid title, amount, date, and category was entered.'),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: const Text('Okay'))
+          ],
+        ));
+  }
+
+  void _showMaterialAlertDialog() {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
